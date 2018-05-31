@@ -52,8 +52,9 @@ public class HomeActivity extends AppCompatActivity {
                                         String socketData = "fab:" + input.getText().toString();
                                         BufferedWriter writer = new BufferedWriter(
                                                 new OutputStreamWriter(socket.getOutputStream()));
-                                        writer.write(socketData + "\n");
+                                        writer.write(socketData + "\0");
                                         writer.flush();
+                                        socket.close();
                                         Looper.prepare();
                                         Toast.makeText(getApplicationContext(), "哼唧哼唧，猪猪收到了，我也爱你~",
                                                 Toast.LENGTH_SHORT).show();
