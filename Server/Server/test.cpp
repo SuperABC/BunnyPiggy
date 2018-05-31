@@ -1,4 +1,5 @@
 #include "winsgl.h"
+#include <string>
 
 SOCKET server, connection;
 
@@ -6,8 +7,16 @@ using std::string;
 
 void mainHandler(string data) {
 	string type = data.substr(0, data.find(':'));
+	data = data.substr(data.find(':') + 1);
 	if (type == "fab") {
+		SYSTEMTIME sys;
+		GetLocalTime(&sys);
 
+		std::ofstream fout("fab.log", std::ios::app);
+		fout << sys.wYear << '.' << sys.wMonth << '.' << sys.wDay << " " <<
+			sys.wHour << ':' << sys.wMinute << ':' << sys.wSecond << '.' << sys.wMilliseconds << " weekday" <<
+			sys.wDayOfWeek << std::endl << data << std::endl << std::endl;
+		fout.close();
 	}
 	if (type == "daily") {
 
