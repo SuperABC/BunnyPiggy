@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">BunnyPiggy</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_promise">Promise</string>
+    <string name="test_text">
+        "霖霖是只可爱的小兔兔~"
+    </string>
+    <string name="home_daily">
+        "猪猪还在睡觉觉~哼唧哼唧"
+    </string>
+    <string name="home_lover">
+        "小兔子小兔子快夸夸我嘛！"
+    </string>
+    <string name="home_joke">
+        "宝贝要听朱独秀的发言不？"
+    </string>
+    <string name="home_novel">
+        "从前有蜘蛛，追到一只兔…"
+    </string>
+    <string name="home_secret">
+        "兔子有悄悄话了咩？"
+    </string>
+</resources>
