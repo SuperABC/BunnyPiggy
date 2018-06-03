@@ -3,10 +3,13 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <GridLayout
+    <GridView
+        android:id="@+id/gridview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    </GridLayout>
+        android:layout_height="wrap_content"
+        android:columnWidth="96dp"
+        android:numColumns="3"
+        android:stretchMode="columnWidth"
+        />
 
 </LinearLayout>

@@ -38,9 +38,9 @@ public class HomeActivity extends AppCompatActivity {
                 public void onClick(View view) {
                     final EditText input = new EditText(HomeActivity.this);
                     AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
-                    builder.setTitle("每天爱一次").setIcon(android.R.drawable.ic_input_get)
+                    builder.setTitle("兔子通知").setIcon(android.R.drawable.ic_input_get)
                             .setView(input).setNegativeButton("取消", null);
-                    builder.setPositiveButton("我爱猪猪", new DialogInterface.OnClickListener() {
+                    builder.setPositiveButton("发送", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             new Thread(new Runnable() {
                                 @Override

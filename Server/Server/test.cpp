@@ -18,19 +18,52 @@ void mainHandler(string data) {
 			sys.wDayOfWeek << std::endl << data << std::endl << std::endl;
 		fout.close();
 	}
-	if (type == "daily") {
+	else if (type == "daily0") {
+		SYSTEMTIME sys;
+		GetLocalTime(&sys);
+
+		std::ofstream fout("daily morning.log", std::ios::app);
+		fout << sys.wYear << '.' << sys.wMonth << '.' << sys.wDay << " " <<
+			sys.wHour << ':' << sys.wMinute << ':' << sys.wSecond << '.' << sys.wMilliseconds << " weekday" <<
+			sys.wDayOfWeek << std::endl << std::endl;
+		fout.close();
+	}
+	else if (type == "daily1") {
 
 	}
-	if (type == "lover") {
+	else if (type == "daily2") {
+		SYSTEMTIME sys;
+		GetLocalTime(&sys);
+
+		std::ofstream fout("daily love.log", std::ios::app);
+		fout << sys.wYear << '.' << sys.wMonth << '.' << sys.wDay << " " <<
+			sys.wHour << ':' << sys.wMinute << ':' << sys.wSecond << '.' << sys.wMilliseconds << " weekday" <<
+			sys.wDayOfWeek << std::endl << data << std::endl << std::endl;
+		fout.close();
+	}
+	else if (type == "daily3") {
 
 	}
-	if (type == "joke") {
+	else if (type == "daily5") {
+		SYSTEMTIME sys;
+		GetLocalTime(&sys);
+
+		std::ofstream fout("daily noon.log", std::ios::app);
+		fout << sys.wYear << '.' << sys.wMonth << '.' << sys.wDay << " " <<
+			sys.wHour << ':' << sys.wMinute << ':' << sys.wSecond << '.' << sys.wMilliseconds << " weekday" <<
+			sys.wDayOfWeek << std::endl << std::endl;
+		fout.close();
+	}
+	else if (type == "lover") {
 
 	}
-	if (type == "novel") {
+	else if (type == "joke") {
 
 	}
-	if (type == "secret") {
+	else if (type == "novel") {
+
+	}
+	else if (type == "secret") {
 
 	}
 }
@@ -54,8 +87,15 @@ void singleCommun(void) {
 		widgetObj *output = getWidgetByName("Output");
 		strcpy((char *)output->content, buf);
 		std::ofstream fout("socket.log", std::ios::app);
-		fout << buf << std::endl;
+
+		SYSTEMTIME sys;
+		GetLocalTime(&sys);
+
+		fout << sys.wYear << '.' << sys.wMonth << '.' << sys.wDay << " " <<
+			sys.wHour << ':' << sys.wMinute << ':' << sys.wSecond << '.' << sys.wMilliseconds << " weekday" <<
+			sys.wDayOfWeek << std::endl << buf << std::endl << std::endl;
 		fout.close();
+
 		mainHandler(buf);
 	}
 	closeSocket(tmp);
@@ -75,7 +115,12 @@ void sgSetup() {
 
 	server = createServer(4497);
 	createThread(resposeReq);
+
 }
 void sgLoop() {
+	if (biosKey(1)) {
+		hideToTray();
+		clearKeyBuffer();
+	}
 	return;
 }
