@@ -41,14 +41,44 @@ void mainHandler(string data) {
 			sys.wDayOfWeek << std::endl << data << std::endl << std::endl;
 		fout.close();
 	}
-	else if (type == "daily3") {
-
-	}
 	else if (type == "daily5") {
 		SYSTEMTIME sys;
 		GetLocalTime(&sys);
 
 		std::ofstream fout("daily noon.log", std::ios::app);
+		fout << sys.wYear << '.' << sys.wMonth << '.' << sys.wDay << " " <<
+			sys.wHour << ':' << sys.wMinute << ':' << sys.wSecond << '.' << sys.wMilliseconds << " weekday" <<
+			sys.wDayOfWeek << std::endl << std::endl;
+		fout.close();
+	}
+	else if (type == "daily7") {
+
+	}
+	else if (type == "daily8") {
+		SYSTEMTIME sys;
+		GetLocalTime(&sys);
+
+		std::ofstream fout("daily anger.log", std::ios::app);
+		fout << sys.wYear << '.' << sys.wMonth << '.' << sys.wDay << " " <<
+			sys.wHour << ':' << sys.wMinute << ':' << sys.wSecond << '.' << sys.wMilliseconds << " weekday" <<
+			sys.wDayOfWeek << std::endl << data << std::endl << std::endl;
+		fout.close();
+	}
+	else if (type == "daily9") {
+		SYSTEMTIME sys;
+		GetLocalTime(&sys);
+
+		std::ofstream fout("daily dream.log", std::ios::app);
+		fout << sys.wYear << '.' << sys.wMonth << '.' << sys.wDay << " " <<
+			sys.wHour << ':' << sys.wMinute << ':' << sys.wSecond << '.' << sys.wMilliseconds << " weekday" <<
+			sys.wDayOfWeek << std::endl << data << std::endl << std::endl;
+		fout.close();
+	}
+	else if (type == "daily11") {
+		SYSTEMTIME sys;
+		GetLocalTime(&sys);
+
+		std::ofstream fout("daily night.log", std::ios::app);
 		fout << sys.wYear << '.' << sys.wMonth << '.' << sys.wDay << " " <<
 			sys.wHour << ':' << sys.wMinute << ':' << sys.wSecond << '.' << sys.wMilliseconds << " weekday" <<
 			sys.wDayOfWeek << std::endl << std::endl;
