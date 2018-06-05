@@ -51,10 +51,24 @@ public class DailyActivity extends AppCompatActivity{
                 "小树参天","美食博主","午觉打卡",
                 "发呆想猪","运动一刻","日常怼猪",
                 "痴兔幻想","小兔崽子","早点睡啦"};
-        for (String aName : name) {
+        int icon[]={
+                R.drawable.morning,
+                R.drawable.breakfast,
+                R.drawable.love,
+                R.drawable.tree,
+                R.drawable.meal,
+                R.drawable.noon,
+                R.drawable.idle,
+                R.drawable.sport,
+                R.drawable.anger,
+                R.drawable.dream,
+                R.drawable.child,
+                R.drawable.night,
+        };
+        for (int i = 0; i < name.length; i++) {
             Map<String, Object> map = new HashMap<>();
-            map.put("img", R.mipmap.ic_launcher);
-            map.put("text", aName);
+            map.put("img", icon[i]);
+            map.put("text", name[i]);
             dataList.add(map);
         }
         String[] from={"img", "text"};
