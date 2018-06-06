@@ -23,6 +23,7 @@
         <activity android:name=".JokeActivity"/>
         <activity android:name=".NovelActivity"/>
         <activity android:name=".SecretActivity"/>
+        <activity android:name=".SportActivity"/>
     </application>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>

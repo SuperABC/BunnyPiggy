@@ -27,6 +27,7 @@
             android:layout_height="wrap_content"
             android:textSize="24sp"
             android:padding="20dp"
+            android:text="暂无"
             android:id="@+id/content"/>
     </ScrollView>
 </LinearLayout>

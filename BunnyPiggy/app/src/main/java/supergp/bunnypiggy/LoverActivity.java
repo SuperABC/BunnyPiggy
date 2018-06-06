@@ -7,6 +7,12 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.Socket;
 import java.util.Calendar;
 
 public class LoverActivity extends AppCompatActivity {
@@ -50,6 +56,35 @@ public class LoverActivity extends AppCompatActivity {
     }
 
     void onRefresh(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Socket socket;
+                try {
+                    socket = new Socket("192.168.1.184", 4497);
 
+                    String socketData = "lover:";
+                    BufferedWriter writer = new BufferedWriter(
+                            new OutputStreamWriter(socket.getOutputStream()));
+                    writer.write(socketData + "\0");
+                    writer.flush();
+                    BufferedReader reader = new BufferedReader(
+                            new InputStreamReader(socket.getInputStream()));
+                    String text = "", append;
+                    while((append=reader.readLine())!=null){
+                        text += append;
+                    }
+                    TextView content = (TextView)findViewById(R.id.text);
+                    if (content != null) {
+                        content.setText(text);
+                    }
+                    socket.close();
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
+
 }

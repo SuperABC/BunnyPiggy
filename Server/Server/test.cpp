@@ -1,11 +1,28 @@
-#include "winsgl.h"
+﻿#include "winsgl.h"
 #include <string>
 
 SOCKET server, connection;
 
 using std::string;
 
-void mainHandler(string data) {
+string GBKToUTF8(const std::string& strGBK) {
+	string strOutUTF8 = "";
+	WCHAR * str1;
+	int n = MultiByteToWideChar(CP_ACP, 0, strGBK.c_str(), -1, NULL, 0);
+	str1 = new WCHAR[n];
+	MultiByteToWideChar(CP_ACP, 0, strGBK.c_str(), -1, str1, n);
+	n = WideCharToMultiByte(CP_UTF8, 0, str1, -1, NULL, 0, NULL, NULL);
+	char * str2 = new char[n];
+	WideCharToMultiByte(CP_UTF8, 0, str1, -1, str2, n, NULL, NULL);
+	strOutUTF8 = str2;
+	delete[] str1;
+	str1 = NULL;
+	delete[] str2;
+	str2 = NULL;
+	return strOutUTF8;
+}
+
+void mainHandler(string data, SOCKET socket) {
 	string type = data.substr(0, data.find(':'));
 	data = data.substr(data.find(':') + 1);
 	if (type == "fab") {
@@ -85,7 +102,7 @@ void mainHandler(string data) {
 		fout.close();
 	}
 	else if (type == "lover") {
-
+		socketSend(socket, GBKToUTF8("成功啦").data());
 	}
 	else if (type == "joke") {
 
@@ -126,7 +143,7 @@ void singleCommun(void) {
 			sys.wDayOfWeek << std::endl << buf << std::endl << std::endl;
 		fout.close();
 
-		mainHandler(buf);
+		mainHandler(buf, tmp);
 	}
 	closeSocket(tmp);
 }
@@ -145,7 +162,6 @@ void sgSetup() {
 
 	server = createServer(4497);
 	createThread(resposeReq);
-
 }
 void sgLoop() {
 	if (biosKey(1)) {

@@ -11,11 +11,15 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:padding="20dp"
+        android:background="@drawable/face"
         android:orientation="vertical">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:textSize="24dp"
             android:layout_margin="@dimen/text_margin"
             android:layout_gravity="center_horizontal"
             android:text="@string/home_daily" />
@@ -23,12 +27,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:background="@drawable/button"
             android:id="@+id/daily_msg"
             android:text="戳一下"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:textSize="24dp"
             android:layout_margin="@dimen/text_margin"
             android:layout_gravity="center_horizontal"
             android:text="@string/home_lover" />
@@ -36,12 +43,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:background="@drawable/button"
             android:id="@+id/lover_msg"
             android:text="胖胖"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:textSize="24dp"
             android:layout_margin="@dimen/text_margin"
             android:layout_gravity="center_horizontal"
             android:text="@string/home_joke" />
@@ -49,12 +59,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:background="@drawable/button"
             android:id="@+id/joke_msg"
             android:text="来吧"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:textSize="24dp"
             android:layout_margin="@dimen/text_margin"
             android:layout_gravity="center_horizontal"
             android:text="@string/home_novel" />
@@ -62,12 +75,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:background="@drawable/button"
             android:id="@+id/novel_msg"
             android:text="追追追猪"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:textSize="24dp"
             android:layout_margin="@dimen/text_margin"
             android:layout_gravity="center_horizontal"
             android:text="@string/home_secret" />
@@ -75,9 +91,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:background="@drawable/button"
             android:id="@+id/secret_msg"
             android:text="我要打猪"/>
-
     </LinearLayout>
 
 </android.support.v4.widget.NestedScrollView>

@@ -4,11 +4,37 @@
     android:layout_height="match_parent">
 
     <TextView
+        android:id="@+id/date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:padding="20dp"
         android:textSize="24sp"
-        android:text="日期"
-        android:id="@+id/date"/>
+        android:text="日期"/>
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:layout_weight="1"
+        android:textSize="20sp"
+        android:text="加载中…"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="4dp"
+        android:layout_weight="4"
+        android:gravity="bottom"
+        android:orientation="horizontal">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2.4"
+            android:text="我爱猪猪"/>
+    </LinearLayout>
 </LinearLayout>
