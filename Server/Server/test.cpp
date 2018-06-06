@@ -101,8 +101,30 @@ void mainHandler(string data, SOCKET socket) {
 			sys.wDayOfWeek << std::endl << std::endl;
 		fout.close();
 	}
-	else if (type == "lover") {
-		socketSend(socket, GBKToUTF8("成功啦").data());
+	else if (type == "loverr") {
+		std::ifstream fin("lover.txt");
+		string input, tmp;
+		while (!fin.eof()) {
+			getline(fin, tmp);
+			if (data.find(tmp)==0) {
+				string text;
+				getline(fin, tmp);
+				while (tmp.length()) {
+					text += tmp + '\n';
+					getline(fin, tmp);
+				}
+				socketSend(socket, GBKToUTF8(text).data());
+				break;
+			}
+			else {
+				while(tmp.length())getline(fin, tmp);
+				getline(fin, tmp);
+			}
+		}
+		fin.close();
+	}
+	else if (type == "loverw") {
+
 	}
 	else if (type == "joke") {
 

@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">BunnyPiggy</string>
-    <string name="action_settings">Settings</string>
-    <string name="action_promise">Promise</string>
+    <string name="action_settings">设置你的猪猪</string>
+    <string name="action_promise">保证书</string>
     <string name="test_text">
         "霖霖是只可爱的小兔兔~"
     </string>

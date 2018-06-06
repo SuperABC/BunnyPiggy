@@ -2,6 +2,9 @@ package supergp.bunnypiggy;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.DatePicker;
@@ -17,15 +20,25 @@ import java.util.Calendar;
 
 public class LoverActivity extends AppCompatActivity {
 
+    public Handler h = new Handler(){
+        @Override
+        public void handleMessage(Message msg){
+            TextView content = (TextView)findViewById(R.id.text);
+            if (content != null) {
+                content.setText(msg.getData().getString("text"));
+            }
+        }
+    };
+    ;
+
+    TextView dateText;
+    int year,month,day;
+    Calendar cal;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lover);
-        onRefresh();
-
-        final TextView dateText;
-        final int year,month,day;
-        Calendar cal;
 
         cal=Calendar.getInstance();
         year=cal.get(Calendar.YEAR);
@@ -34,17 +47,15 @@ public class LoverActivity extends AppCompatActivity {
 
         dateText=(TextView) findViewById(R.id.date);
         if (dateText != null) {
-            dateText.setText(String.valueOf(year) + '-' +
-                    String.valueOf(month + 1) + '-' + String.valueOf(day));
+            dateText.setText(year+"-"+(month + 1)+"-"+day);
             dateText.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                     DatePickerDialog.OnDateSetListener listener=new DatePickerDialog.OnDateSetListener() {
 
                         @Override
                         public void onDateSet(DatePicker arg0, int year, int month, int day) {
-                            dateText.setText(year+"-"+(++month)+"-"+day);
+                            dateText.setText(year+"-"+(month + 1)+"-"+day);
                             onRefresh();
                         }
                     };
@@ -53,9 +64,20 @@ public class LoverActivity extends AppCompatActivity {
                 }
             });
         }
+
+        onRefresh();
     }
 
     void onRefresh(){
+        if (dateText != null) {
+            String date = dateText.getText().toString();
+            year = Integer.parseInt(date.substring(0, date.indexOf('-')));
+            date = date.substring(date.indexOf('-') + 1);
+            month = Integer.parseInt(date.substring(0, date.indexOf('-'))) - 1;
+            date = date.substring(date.indexOf('-') + 1);
+            day = Integer.parseInt(date);
+        }
+
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -63,7 +85,7 @@ public class LoverActivity extends AppCompatActivity {
                 try {
                     socket = new Socket("192.168.1.184", 4497);
 
-                    String socketData = "lover:";
+                    String socketData = "loverr:" + year + "-" + (month + 1) + "-" + day + " \n";
                     BufferedWriter writer = new BufferedWriter(
                             new OutputStreamWriter(socket.getOutputStream()));
                     writer.write(socketData + "\0");
@@ -74,17 +96,16 @@ public class LoverActivity extends AppCompatActivity {
                     while((append=reader.readLine())!=null){
                         text += append;
                     }
-                    TextView content = (TextView)findViewById(R.id.text);
-                    if (content != null) {
-                        content.setText(text);
-                    }
+                    Message m = new Message();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("text",text);
+                    m.setData(bundle);
+                    h.sendMessage(m);
                     socket.close();
-
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
         }).start();
     }
-
 }
