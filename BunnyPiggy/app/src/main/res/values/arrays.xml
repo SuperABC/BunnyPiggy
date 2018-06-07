@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="sport">
+        <item>就散散步啦</item>
+        <item>猪兔赛跑</item>
+        <item>增肌训练</item>
+        <item>打球打球</item>
+        <item>啪啪猪</item>
+    </string-array>
+</resources>

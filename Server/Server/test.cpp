@@ -1,10 +1,19 @@
 ﻿#include "winsgl.h"
 #include <string>
+#include <atlimage.h>
 
 SOCKET server, connection;
 
 using std::string;
 
+LPWSTR widen(const char *src) {
+	int rt;
+	LPWSTR rs;
+	rt = MultiByteToWideChar(CP_ACP, 0, src, -1, NULL, 0);
+	rs = (LPWSTR)malloc(rt * sizeof(wchar_t));
+	MultiByteToWideChar(CP_ACP, 0, src, -1, rs, rt * sizeof(wchar_t));
+	return rs;
+}
 string GBKToUTF8(const std::string& strGBK) {
 	string strOutUTF8 = "";
 	WCHAR * str1;
@@ -21,8 +30,28 @@ string GBKToUTF8(const std::string& strGBK) {
 	str2 = NULL;
 	return strOutUTF8;
 }
+void writePic(const char *src, int width, int height) {
+	CImage *pic = new CImage();
+	pic->Create(width, height, 24);
 
-void mainHandler(string data, SOCKET socket) {
+	int i = 0;
+	for (int k = 0; k < height; k++) {
+		for (int j = 0; j < width; j++) {
+			pic->SetPixelRGB(j, k, src[i++] * 2, src[i++] * 2, src[i++] * 2);
+			i++;
+		}
+	}
+
+	SYSTEMTIME sys;
+	GetLocalTime(&sys);
+	char fn[64];
+	sprintf(fn, "Food\\%d-%d-%d-%d-%d-%d.jpg", sys.wYear, sys.wMonth, sys.wDay,
+		sys.wHour, sys.wMinute, sys.wSecond);
+	pic->Save(widen(fn));
+}
+
+void mainHandler(char *str, SOCKET socket) {
+	string data = string(str);
 	string type = data.substr(0, data.find(':'));
 	data = data.substr(data.find(':') + 1);
 	if (type == "fab") {
@@ -135,6 +164,25 @@ void mainHandler(string data, SOCKET socket) {
 	else if (type == "secret") {
 
 	}
+	else if (type == "pic") {
+		string widthStr = data.substr(0, data.find(' '));
+		data = data.substr(data.find(' ') + 1);
+		string heightStr = data.substr(0, data.find(' '));
+		data = data.substr(data.find(' ') + 1);
+		char *buf = new char[1024*1024];
+
+		int i = 0;
+		while (str[i++] != ' ');
+		while (str[i++] != ' ');
+		memcpy(buf, str + i, 64 - i);
+		i = 64 - i;
+		while (socketReceive(socket, buf + i, 1024) != SG_CONNECTION_FAILED) {
+			Sleep(1);
+			i += 1024;
+		}
+		writePic(buf, atoi(widthStr.data()), atoi(heightStr.data()));
+		delete[] buf;
+	}
 }
 
 void layoutWidget() {
@@ -150,7 +198,7 @@ void layoutWidget() {
 }
 void singleCommun(void) {
 	SOCKET tmp = connection;
-	char buf[64];
+	char buf[64] = { 0 };
 
 	if (socketReceive(tmp, buf, 64) != SG_CONNECTION_FAILED) {
 		widgetObj *output = getWidgetByName("Output");

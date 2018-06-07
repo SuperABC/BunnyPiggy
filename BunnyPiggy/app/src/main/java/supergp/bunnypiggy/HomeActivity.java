@@ -102,7 +102,7 @@ public class HomeActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(HomeActivity.this,JokeActivity.class);
-                    startActivity(intent);
+                    //startActivity(intent);
                 }
             });
         }
@@ -112,7 +112,7 @@ public class HomeActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(HomeActivity.this,NovelActivity.class);
-                    startActivity(intent);
+                    //startActivity(intent);
                 }
             });
         }
@@ -122,7 +122,7 @@ public class HomeActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(HomeActivity.this,SecretActivity.class);
-                    startActivity(intent);
+                    //startActivity(intent);
                 }
             });
         }

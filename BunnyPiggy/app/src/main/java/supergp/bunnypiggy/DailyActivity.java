@@ -9,8 +9,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Looper;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -23,9 +25,18 @@ import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
+import java.nio.Buffer;
+import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
+import java.nio.DoubleBuffer;
+import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
+import java.nio.LongBuffer;
+import java.nio.ShortBuffer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -332,7 +343,8 @@ public class DailyActivity extends AppCompatActivity{
         bt_camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                takeCamera();
+                Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+                startActivityForResult(intent,SUB_CAMERA);
                 popupWindow.dismiss();
             }
         });
@@ -354,11 +366,6 @@ public class DailyActivity extends AppCompatActivity{
         lp.alpha = 0.5f;
         getWindow().setAttributes(lp);
         popupWindow.showAtLocation(popView, Gravity.BOTTOM,0,50);
-    }
-
-    private void takeCamera() {
-        Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-        startActivityForResult(intent,SUB_CAMERA);
     }
 
     @Override
@@ -403,6 +410,45 @@ public class DailyActivity extends AppCompatActivity{
     }
 
     private void uploadPic(Bitmap pic){
+        ByteBuffer buffer = ByteBuffer.allocate(pic.getWidth() * pic.getHeight()*4);
+        pic.copyPixelsToBuffer(buffer);
+        byte [] bytes= buffer.array();
+        for(int i = 0; i < bytes.length; i++){
+            if(bytes[i] < 0)
+                bytes[i]=(byte)((bytes[i]+256)/2);
+            else
+                bytes[i] = (byte)(bytes[i]/2);
+        }
+        final String imgsrc = new String(bytes);
+        final int width = pic.getWidth();
+        final int height = pic.getHeight();
 
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Socket socket;
+                try {
+                    socket = new Socket("192.168.1.184", 4497);
+
+                    String socketData = "pic:" + width + " " + height + " " + imgsrc;
+                    BufferedWriter writer = new BufferedWriter(
+                            new OutputStreamWriter(socket.getOutputStream()));
+                    writer.write(socketData + "\0");
+                    writer.flush();
+                    socket.close();
+                    Looper.prepare();
+                    Toast.makeText(getApplicationContext(), "哼唧哼唧，猪猪收到惹~",
+                            Toast.LENGTH_SHORT).show();
+                    Looper.loop();
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    Looper.prepare();
+                    Toast.makeText(getApplicationContext(), "哼唧哼唧，出问题了…",
+                            Toast.LENGTH_SHORT).show();
+                    Looper.loop();
+                }
+            }
+        }).start();
     }
 }
