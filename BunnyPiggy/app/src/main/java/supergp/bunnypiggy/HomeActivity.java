@@ -1,9 +1,11 @@
 package supergp.bunnypiggy;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.Looper;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
@@ -16,14 +18,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 
 public class HomeActivity extends AppCompatActivity {
 
-    public static Handler handler = new Handler();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,6 +99,16 @@ public class HomeActivity extends AppCompatActivity {
                 }
             });
         }
+        Button cardMsg = (Button) findViewById(R.id.card_msg);
+        if (cardMsg != null) {
+            cardMsg.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(HomeActivity.this,CardActivity.class);
+                    startActivity(intent);
+                }
+            });
+        }
         Button jokeMsg = (Button) findViewById(R.id.joke_msg);
         if (jokeMsg != null) {
             jokeMsg.setOnClickListener(new View.OnClickListener() {
@@ -126,6 +139,75 @@ public class HomeActivity extends AppCompatActivity {
                 }
             });
         }
+
+        final IntentFilter filter = new IntentFilter();
+        filter.addAction(Intent.ACTION_SCREEN_ON);
+
+        BroadcastReceiver mBatInfoReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(final Context context, final Intent intent) {
+                String action = intent.getAction();
+                if (Intent.ACTION_SCREEN_ON.equals(action)) {
+                    /*Toast.makeText(getApplicationContext(), "屏幕亮起",
+                            Toast.LENGTH_SHORT).show();*/
+                }
+            }
+        };
+        registerReceiver(mBatInfoReceiver, filter);
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Socket socket;
+                try {
+                    socket = new Socket("192.168.1.184", 4497);
+
+                    String socketData = "board:";
+                    BufferedWriter writer = new BufferedWriter(
+                            new OutputStreamWriter(socket.getOutputStream()));
+                    writer.write(socketData + "\0");
+                    writer.flush();
+                    BufferedReader reader = new BufferedReader(
+                            new InputStreamReader(socket.getInputStream()));
+                    String text = "", append;
+                    while((append=reader.readLine())!=null){
+                        text += append + '\n';
+                    }
+                    if(text.length()>1){
+                        Looper.prepare();
+                        new  AlertDialog.Builder(HomeActivity.this).
+                                setTitle("猪猪的公告").setMessage(text).
+                                setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Socket socket;
+                                        try {
+                                            socket = new Socket("192.168.1.184", 4497);
+                                            String socketData = "boardok:";
+                                            BufferedWriter writer = new BufferedWriter(
+                                                    new OutputStreamWriter(socket.getOutputStream()));
+                                            writer.write(socketData + "\0");
+                                            writer.flush();
+                                            socket.close();
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                }).show();
+                        Looper.loop();
+
+                    }
+                    socket.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 
     @Override

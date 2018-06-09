@@ -64,6 +64,22 @@ void mainHandler(char *str, SOCKET socket) {
 			sys.wDayOfWeek << std::endl << data << std::endl << std::endl;
 		fout.close();
 	}
+	else if (type == "board") {
+		std::ifstream fin("board.txt");
+
+		string input, tmp;
+		while (!fin.eof()) {
+			getline(fin, tmp);
+			input = input + tmp + '\n';
+		}
+		fin.close();
+
+		socketSend(socket, GBKToUTF8(input).data());
+	}
+	else if (type == "boardok") {
+		std::ifstream fin("board.txt", std::ios::out | std::ios::trunc);
+		fin.close();
+	}
 	else if (type == "daily0") {
 		SYSTEMTIME sys;
 		GetLocalTime(&sys);
@@ -73,9 +89,6 @@ void mainHandler(char *str, SOCKET socket) {
 			sys.wHour << ':' << sys.wMinute << ':' << sys.wSecond << '.' << sys.wMilliseconds << " weekday" <<
 			sys.wDayOfWeek << std::endl << std::endl;
 		fout.close();
-	}
-	else if (type == "daily1") {
-
 	}
 	else if (type == "daily2") {
 		SYSTEMTIME sys;
@@ -147,7 +160,6 @@ void mainHandler(char *str, SOCKET socket) {
 			}
 			else {
 				while(tmp.length())getline(fin, tmp);
-				getline(fin, tmp);
 			}
 		}
 		fin.close();

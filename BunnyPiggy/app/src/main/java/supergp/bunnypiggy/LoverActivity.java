@@ -94,7 +94,7 @@ public class LoverActivity extends AppCompatActivity {
                             new InputStreamReader(socket.getInputStream()));
                     String text = "", append;
                     while((append=reader.readLine())!=null){
-                        text += append;
+                        text += append + '\n';
                     }
                     Message m = new Message();
                     Bundle bundle = new Bundle();
