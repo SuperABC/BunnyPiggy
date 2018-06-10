@@ -167,6 +167,9 @@ void mainHandler(char *str, SOCKET socket) {
 	else if (type == "loverw") {
 
 	}
+	else if (type == "card") {
+		socketSend(socket, GBKToUTF8("1").data());
+	}
 	else if (type == "joke") {
 
 	}

@@ -14,101 +14,142 @@
         android:padding="20dp"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#000"
-            android:textSize="24dp"
-            android:layout_margin="@dimen/text_margin"
-            android:layout_gravity="center_horizontal"
-            android:text="@string/home_daily" />
-        <Button
-            android:layout_width="wrap_content"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/sleep"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#000"
+                    android:textSize="24sp"
+                    android:layout_margin="@dimen/text_margin"
+                    android:layout_gravity="center_horizontal"
+                    android:id="@+id/daily_msg"
+                    android:text="@string/home_daily" />
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/button"
+                    android:id="@+id/daily_btn"
+                    android:text="戳一下"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:background="@drawable/button"
-            android:id="@+id/daily_msg"
-            android:text="戳一下"/>
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#000"
+                    android:textSize="24sp"
+                    android:layout_margin="@dimen/text_margin"
+                    android:layout_gravity="center_horizontal"
+                    android:id="@+id/lover_msg"
+                    android:text="@string/home_lover" />
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/button"
+                    android:id="@+id/lover_btn"
+                    android:text="胖胖"/>
+            </LinearLayout>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/together"/>
+        </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#000"
-            android:textSize="24dp"
+            android:textSize="24sp"
             android:layout_margin="@dimen/text_margin"
             android:layout_gravity="center_horizontal"
-            android:text="@string/home_lover" />
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:background="@drawable/button"
-            android:id="@+id/lover_msg"
-            android:text="胖胖"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#000"
-            android:textSize="24dp"
-            android:layout_margin="@dimen/text_margin"
-            android:layout_gravity="center_horizontal"
+            android:id="@+id/card_msg"
             android:text="@string/home_card" />
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/button"
-            android:id="@+id/card_msg"
+            android:id="@+id/card_btn"
             android:text="试一试"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#000"
-            android:textSize="24dp"
+            android:textSize="24sp"
             android:layout_margin="@dimen/text_margin"
             android:layout_gravity="center_horizontal"
+            android:id="@+id/joke_msg"
             android:text="@string/home_joke" />
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/button"
-            android:id="@+id/joke_msg"
+            android:id="@+id/joke_btn"
             android:text="来吧"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#000"
-            android:textSize="24dp"
+            android:textSize="24sp"
             android:layout_margin="@dimen/text_margin"
             android:layout_gravity="center_horizontal"
+            android:id="@+id/novel_msg"
             android:text="@string/home_novel" />
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/button"
-            android:id="@+id/novel_msg"
+            android:id="@+id/novel_btn"
             android:text="追追追猪"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#000"
-            android:textSize="24dp"
+            android:textSize="24sp"
             android:layout_margin="@dimen/text_margin"
             android:layout_gravity="center_horizontal"
+            android:id="@+id/secret_msg"
             android:text="@string/home_secret" />
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/button"
-            android:id="@+id/secret_msg"
+            android:id="@+id/secret_btn"
             android:text="我要打猪"/>
+
     </LinearLayout>
 
 </android.support.v4.widget.NestedScrollView>

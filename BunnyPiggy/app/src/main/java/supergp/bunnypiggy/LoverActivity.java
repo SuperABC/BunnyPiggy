@@ -29,7 +29,6 @@ public class LoverActivity extends AppCompatActivity {
             }
         }
     };
-    ;
 
     TextView dateText;
     int year,month,day;

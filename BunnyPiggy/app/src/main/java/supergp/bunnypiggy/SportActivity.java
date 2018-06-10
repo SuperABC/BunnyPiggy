@@ -6,10 +6,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class SportActivity extends AppCompatActivity {
@@ -38,6 +40,18 @@ public class SportActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sport);
+
+        Calendar calendar = Calendar.getInstance();
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        LinearLayout act = (LinearLayout)findViewById(R.id.sportlayout);
+        if (act != null) {
+            if(hour < 8 || hour > 20){
+                act.setBackgroundResource(R.drawable.facedark);
+            }
+            else{
+                act.setBackgroundResource(R.drawable.facelight);
+            }
+        }
 
         Spinner type = (Spinner)findViewById(R.id.type);
         if (type != null) {

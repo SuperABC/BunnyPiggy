@@ -9,10 +9,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Looper;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Base64;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -20,24 +18,18 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import java.io.BufferedWriter;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
-import java.nio.Buffer;
 import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
-import java.nio.DoubleBuffer;
-import java.nio.FloatBuffer;
-import java.nio.IntBuffer;
-import java.nio.LongBuffer;
-import java.nio.ShortBuffer;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,6 +46,18 @@ public class DailyActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_daily);
+
+        Calendar calendar = Calendar.getInstance();
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        LinearLayout act = (LinearLayout)findViewById(R.id.dailylayout);
+        if (act != null) {
+            if(hour < 8 || hour > 20){
+                act.setBackgroundResource(R.drawable.facedark);
+            }
+            else{
+                act.setBackgroundResource(R.drawable.facelight);
+            }
+        }
 
         gridView = (GridView) findViewById(R.id.gridview);
         dataList = new ArrayList<>();

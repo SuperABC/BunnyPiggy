@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Looper;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -24,6 +25,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
+import java.util.Calendar;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -33,6 +35,18 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        Calendar calendar = Calendar.getInstance();
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        CoordinatorLayout act = (CoordinatorLayout)findViewById(R.id.homelayout);
+        if (act != null) {
+            if(hour < 8 || hour > 20){
+                act.setBackgroundResource(R.drawable.facedark);
+            }
+            else{
+                act.setBackgroundResource(R.drawable.facelight);
+            }
+        }
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         if (fab != null) {
@@ -79,9 +93,9 @@ public class HomeActivity extends AppCompatActivity {
             });
         }
 
-        Button dailyMsg = (Button) findViewById(R.id.daily_msg);
-        if (dailyMsg != null) {
-            dailyMsg.setOnClickListener(new View.OnClickListener() {
+        Button DailyBtn = (Button) findViewById(R.id.daily_btn);
+        if (DailyBtn != null) {
+            DailyBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(HomeActivity.this, DailyActivity.class);
@@ -89,9 +103,9 @@ public class HomeActivity extends AppCompatActivity {
                 }
             });
         }
-        Button loverMsg = (Button) findViewById(R.id.lover_msg);
-        if (loverMsg != null) {
-            loverMsg.setOnClickListener(new View.OnClickListener() {
+        Button loverBtn = (Button) findViewById(R.id.lover_btn);
+        if (loverBtn != null) {
+            loverBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(HomeActivity.this,LoverActivity.class);
@@ -99,9 +113,9 @@ public class HomeActivity extends AppCompatActivity {
                 }
             });
         }
-        Button cardMsg = (Button) findViewById(R.id.card_msg);
-        if (cardMsg != null) {
-            cardMsg.setOnClickListener(new View.OnClickListener() {
+        Button cardBtn = (Button) findViewById(R.id.card_btn);
+        if (cardBtn != null) {
+            cardBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(HomeActivity.this,CardActivity.class);
@@ -109,9 +123,9 @@ public class HomeActivity extends AppCompatActivity {
                 }
             });
         }
-        Button jokeMsg = (Button) findViewById(R.id.joke_msg);
-        if (jokeMsg != null) {
-            jokeMsg.setOnClickListener(new View.OnClickListener() {
+        Button jokeBtn = (Button) findViewById(R.id.joke_btn);
+        if (jokeBtn != null) {
+            jokeBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(HomeActivity.this,JokeActivity.class);
@@ -119,9 +133,9 @@ public class HomeActivity extends AppCompatActivity {
                 }
             });
         }
-        Button novelMsg = (Button) findViewById(R.id.novel_msg);
-        if (novelMsg != null) {
-            novelMsg.setOnClickListener(new View.OnClickListener() {
+        Button novelBtn = (Button) findViewById(R.id.novel_btn);
+        if (novelBtn != null) {
+            novelBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(HomeActivity.this,NovelActivity.class);
@@ -129,9 +143,9 @@ public class HomeActivity extends AppCompatActivity {
                 }
             });
         }
-        Button secretMsg = (Button) findViewById(R.id.secret_msg);
-        if (secretMsg != null) {
-            secretMsg.setOnClickListener(new View.OnClickListener() {
+        Button secretBtn = (Button) findViewById(R.id.secret_btn);
+        if (secretBtn != null) {
+            secretBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(HomeActivity.this,SecretActivity.class);
