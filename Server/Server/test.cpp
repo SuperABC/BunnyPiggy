@@ -6,6 +6,9 @@ SOCKET server, connection;
 
 using std::string;
 
+int tmpCard = 0;
+int rewardState[20];
+
 LPWSTR widen(const char *src) {
 	int rt;
 	LPWSTR rs;
@@ -49,6 +52,17 @@ void writePic(const char *src, int width, int height) {
 		sys.wHour, sys.wMinute, sys.wSecond);
 	pic->Save(widen(fn));
 }
+void addCard(int n) {
+	std::ifstream fin("cardn.txt");
+	int num;
+	fin >> num;
+	num += n;
+	fin.close();
+
+	std::ofstream fout("cardn.txt");
+	fout << num;
+	fout.close();
+}
 
 void mainHandler(char *str, SOCKET socket) {
 	string data = string(str);
@@ -89,6 +103,15 @@ void mainHandler(char *str, SOCKET socket) {
 			sys.wHour << ':' << sys.wMinute << ':' << sys.wSecond << '.' << sys.wMilliseconds << " weekday" <<
 			sys.wDayOfWeek << std::endl << std::endl;
 		fout.close();
+
+		if (rewardState[0]) {
+			addCard(1);
+			rewardState[0]--;
+			socketSend(socket, GBKToUTF8("success").data());
+		}
+		else {
+			socketSend(socket, GBKToUTF8("empty").data());
+		}
 	}
 	else if (type == "daily2") {
 		SYSTEMTIME sys;
@@ -99,6 +122,15 @@ void mainHandler(char *str, SOCKET socket) {
 			sys.wHour << ':' << sys.wMinute << ':' << sys.wSecond << '.' << sys.wMilliseconds << " weekday" <<
 			sys.wDayOfWeek << std::endl << data << std::endl << std::endl;
 		fout.close();
+
+		if (rewardState[2]) {
+			addCard(1);
+			rewardState[2]--;
+			socketSend(socket, GBKToUTF8("success").data());
+		}
+		else {
+			socketSend(socket, GBKToUTF8("empty").data());
+		}
 	}
 	else if (type == "daily5") {
 		SYSTEMTIME sys;
@@ -109,9 +141,6 @@ void mainHandler(char *str, SOCKET socket) {
 			sys.wHour << ':' << sys.wMinute << ':' << sys.wSecond << '.' << sys.wMilliseconds << " weekday" <<
 			sys.wDayOfWeek << std::endl << std::endl;
 		fout.close();
-	}
-	else if (type == "daily7") {
-
 	}
 	else if (type == "daily8") {
 		SYSTEMTIME sys;
@@ -132,6 +161,15 @@ void mainHandler(char *str, SOCKET socket) {
 			sys.wHour << ':' << sys.wMinute << ':' << sys.wSecond << '.' << sys.wMilliseconds << " weekday" <<
 			sys.wDayOfWeek << std::endl << data << std::endl << std::endl;
 		fout.close();
+
+		if (rewardState[7]) {
+			addCard(1);
+			rewardState[7]--;
+			socketSend(socket, GBKToUTF8("success").data());
+		}
+		else {
+			socketSend(socket, GBKToUTF8("empty").data());
+		}
 	}
 	else if (type == "daily11") {
 		SYSTEMTIME sys;
@@ -142,6 +180,15 @@ void mainHandler(char *str, SOCKET socket) {
 			sys.wHour << ':' << sys.wMinute << ':' << sys.wSecond << '.' << sys.wMilliseconds << " weekday" <<
 			sys.wDayOfWeek << std::endl << std::endl;
 		fout.close();
+
+		if (rewardState[9]) {
+			addCard(1);
+			rewardState[9]--;
+			socketSend(socket, GBKToUTF8("success").data());
+		}
+		else {
+			socketSend(socket, GBKToUTF8("empty").data());
+		}
 	}
 	else if (type == "loverr") {
 		std::ifstream fin("lover.txt");
@@ -167,8 +214,69 @@ void mainHandler(char *str, SOCKET socket) {
 	else if (type == "loverw") {
 
 	}
+	else if (type == "cardn") {
+		std::ifstream fin("cardn.txt");
+		string cardn;
+		fin >> cardn;
+		socketSend(socket, cardn.data());
+	}
 	else if (type == "card") {
-		socketSend(socket, GBKToUTF8("1").data());
+		SYSTEMTIME sys;
+		GetLocalTime(&sys);
+
+		int r = sys.wMilliseconds + sys.wSecond * 1000;
+		if (r % 10000 == 2546) {
+			socketSend(socket, GBKToUTF8("8").data());
+			tmpCard = 8;
+		}
+		else if (r % 4000 == 1234) {
+			socketSend(socket, GBKToUTF8("7").data());
+			tmpCard = 7;
+		}
+		else if (r % 1600 == 995) {
+			socketSend(socket, GBKToUTF8("6").data());
+			tmpCard = 6;
+		}
+		else if (r % 800 == 546) {
+			socketSend(socket, GBKToUTF8("5").data());
+			tmpCard = 5;
+		}
+		else if (r % 300 == 846) {
+			socketSend(socket, GBKToUTF8("4").data());
+			tmpCard = 4;
+		}
+		else if (r % 100 == 11) {
+			socketSend(socket, GBKToUTF8("3").data());
+			tmpCard = 3;
+		}
+		else if (r % 40 == 21) {
+			socketSend(socket, GBKToUTF8("2").data());
+			tmpCard = 2;
+		}
+		else if (r % 10 == 5) {
+			socketSend(socket, GBKToUTF8("1").data());
+			tmpCard = 1;
+		}
+		else {
+			socketSend(socket, GBKToUTF8("0").data());
+			tmpCard = 0;
+		}
+	}
+	else if (type == "cardok") {
+		int cards[10] = { 0 };
+
+		std::ifstream fin("rewards.txt");
+		fin >> cards[0] >> cards[1] >> cards[2] >> cards[3] >> cards[4] >>
+			cards[5] >> cards[6] >> cards[7] >> cards[8] >> cards[9];
+		cards[tmpCard]++;
+		fin.close();
+
+		std::ofstream fout("rewards.txt");
+		fout << cards[0] << " " << cards[1] << " " << cards[2] << " " << cards[3] << " " << cards[4] << " " <<
+			cards[5] << " " << cards[6] << " " << cards[7] << " " << cards[8] << " " << cards[9];
+		fout.close();
+
+		addCard(-1);
 	}
 	else if (type == "joke") {
 
@@ -197,6 +305,25 @@ void mainHandler(char *str, SOCKET socket) {
 		}
 		writePic(buf, atoi(widthStr.data()), atoi(heightStr.data()));
 		delete[] buf;
+
+		if (rewardState[1]) {
+			addCard(1);
+			rewardState[1]--;
+			socketSend(socket, GBKToUTF8("success").data());
+		}
+		else if (rewardState[3]) {
+			addCard(1);
+			rewardState[3]--;
+			socketSend(socket, GBKToUTF8("success").data());
+		}
+		else if (rewardState[8]) {
+			addCard(1);
+			rewardState[8]--;
+			socketSend(socket, GBKToUTF8("success").data());
+		}
+		else {
+			socketSend(socket, GBKToUTF8("empty").data());
+		}
 	}
 }
 
@@ -211,7 +338,7 @@ void layoutWidget() {
 	strcpy((char *)Output->content, "");
 	registerWidget(Output);
 }
-void singleCommun(void) {
+void singleCommun() {
 	SOCKET tmp = connection;
 	char buf[64] = { 0 };
 
@@ -232,10 +359,35 @@ void singleCommun(void) {
 	}
 	closeSocket(tmp);
 }
-void resposeReq(void) {
+void resposeReq() {
 	while (1) {
 		connection = acceptOne(server);
 		createThread(singleCommun);
+	}
+}
+
+void timeSupervise() {
+	static int past = 0;
+
+	SYSTEMTIME sys;
+	GetLocalTime(&sys);
+
+	while (1) {
+		if (sys.wDay != past) {
+			past = sys.wDay;
+			rewardState[0] = 1; //早安
+			rewardState[1] = 1; //早餐
+			rewardState[2] = 1; //日常爱
+			rewardState[3] = 1; //午餐
+			rewardState[4] = 1; //美美哒 待
+			rewardState[5] = 10; //想猪 待
+			rewardState[6] = 2; //运动 待
+			rewardState[7] = 2; //幻想
+			rewardState[8] = 1; //晚餐
+			rewardState[9] = 1; //晚安
+
+			GetLocalTime(&sys);
+		}
 	}
 }
 
@@ -244,6 +396,8 @@ void sgSetup() {
 	initMouse(SG_COORDINATE);
 	initKey();
 	layoutWidget();
+
+	createThread(timeSupervise);
 
 	server = createServer(4497);
 	createThread(resposeReq);

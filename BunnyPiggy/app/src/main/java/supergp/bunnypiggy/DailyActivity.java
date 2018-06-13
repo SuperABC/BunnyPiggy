@@ -23,8 +23,10 @@ import android.widget.PopupWindow;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.nio.ByteBuffer;
@@ -101,17 +103,24 @@ public class DailyActivity extends AppCompatActivity{
                             public void run() {
                                 Socket socket;
                                 try {
-                                    socket = new Socket("192.168.1.184", 4497);
+                                    socket = new Socket(HomeActivity.host, 4497);
 
                                     String socketData = "daily0:";
                                     BufferedWriter writer = new BufferedWriter(
                                             new OutputStreamWriter(socket.getOutputStream()));
                                     writer.write(socketData + "\0");
                                     writer.flush();
+                                    BufferedReader reader = new BufferedReader(
+                                            new InputStreamReader(socket.getInputStream()));
+                                    String text=reader.readLine();
                                     socket.close();
                                     Looper.prepare();
-                                    Toast.makeText(getApplicationContext(), "早上好呀小兔子~",
-                                            Toast.LENGTH_SHORT).show();
+                                    if(text.startsWith("success"))
+                                        Toast.makeText(getApplicationContext(), "早上好呀小兔子~",
+                                                Toast.LENGTH_SHORT).show();
+                                    else
+                                        Toast.makeText(getApplicationContext(), "已经早安过了呀~",
+                                                Toast.LENGTH_SHORT).show();
                                     Looper.loop();
 
                                 } catch (IOException e) {
@@ -139,17 +148,24 @@ public class DailyActivity extends AppCompatActivity{
                                     public void run() {
                                         Socket socket;
                                         try {
-                                            socket = new Socket("192.168.1.184", 4497);
+                                            socket = new Socket(HomeActivity.host, 4497);
 
                                             String socketData = "daily2:" + loveInput.getText().toString();
                                             BufferedWriter writer = new BufferedWriter(
                                                     new OutputStreamWriter(socket.getOutputStream()));
                                             writer.write(socketData + "\0");
                                             writer.flush();
+                                            BufferedReader reader = new BufferedReader(
+                                                    new InputStreamReader(socket.getInputStream()));
+                                            String text=reader.readLine();
                                             socket.close();
                                             Looper.prepare();
-                                            Toast.makeText(getApplicationContext(), "哼唧哼唧，猪猪收到了，我也爱你~",
-                                                    Toast.LENGTH_SHORT).show();
+                                            if(text.startsWith("success"))
+                                                Toast.makeText(getApplicationContext(), "爱死你了呢~",
+                                                        Toast.LENGTH_SHORT).show();
+                                            else
+                                                Toast.makeText(getApplicationContext(), "嘻嘻，知道你爱我，但是奖励不能多给哟~",
+                                                        Toast.LENGTH_SHORT).show();
                                             Looper.loop();
 
                                         } catch (IOException e) {
@@ -178,7 +194,7 @@ public class DailyActivity extends AppCompatActivity{
                             public void run() {
                                 Socket socket;
                                 try {
-                                    socket = new Socket("192.168.1.184", 4497);
+                                    socket = new Socket(HomeActivity.host, 4497);
 
                                     String socketData = "daily5:";
                                     BufferedWriter writer = new BufferedWriter(
@@ -221,7 +237,7 @@ public class DailyActivity extends AppCompatActivity{
                                     public void run() {
                                         Socket socket;
                                         try {
-                                            socket = new Socket("192.168.1.184", 4497);
+                                            socket = new Socket(HomeActivity.host, 4497);
 
                                             String socketData = "daily8:" + angerInput.getText().toString();
                                             BufferedWriter writer = new BufferedWriter(
@@ -259,17 +275,24 @@ public class DailyActivity extends AppCompatActivity{
                                     public void run() {
                                         Socket socket;
                                         try {
-                                            socket = new Socket("192.168.1.184", 4497);
+                                            socket = new Socket(HomeActivity.host, 4497);
 
                                             String socketData = "daily9:" + dreamInput.getText().toString();
                                             BufferedWriter writer = new BufferedWriter(
                                                     new OutputStreamWriter(socket.getOutputStream()));
                                             writer.write(socketData + "\0");
                                             writer.flush();
+                                            BufferedReader reader = new BufferedReader(
+                                                    new InputStreamReader(socket.getInputStream()));
+                                            String text=reader.readLine();
                                             socket.close();
                                             Looper.prepare();
-                                            Toast.makeText(getApplicationContext(), "猜猜什么时候愿望成真呢？",
-                                                    Toast.LENGTH_SHORT).show();
+                                            if(text.startsWith("success"))
+                                                Toast.makeText(getApplicationContext(), "猜猜什么时候梦想实现呢~",
+                                                        Toast.LENGTH_SHORT).show();
+                                            else
+                                                Toast.makeText(getApplicationContext(), "一天不要幻想太多次哟~",
+                                                        Toast.LENGTH_SHORT).show();
                                             Looper.loop();
 
                                         } catch (IOException e) {
@@ -295,17 +318,24 @@ public class DailyActivity extends AppCompatActivity{
                             public void run() {
                                 Socket socket;
                                 try {
-                                    socket = new Socket("192.168.1.184", 4497);
+                                    socket = new Socket(HomeActivity.host, 4497);
 
                                     String socketData = "daily11:";
                                     BufferedWriter writer = new BufferedWriter(
                                             new OutputStreamWriter(socket.getOutputStream()));
                                     writer.write(socketData + "\0");
                                     writer.flush();
+                                    BufferedReader reader = new BufferedReader(
+                                            new InputStreamReader(socket.getInputStream()));
+                                    String text=reader.readLine();
                                     socket.close();
                                     Looper.prepare();
-                                    Toast.makeText(getApplicationContext(), "兔兔晚安~",
-                                            Toast.LENGTH_SHORT).show();
+                                    if(text.startsWith("success"))
+                                        Toast.makeText(getApplicationContext(), "晚安安安~",
+                                                Toast.LENGTH_SHORT).show();
+                                    else
+                                        Toast.makeText(getApplicationContext(), "晚安过了，兔叽快睡觉吧~",
+                                                Toast.LENGTH_SHORT).show();
                                     Looper.loop();
 
                                 } catch (IOException e) {
@@ -432,17 +462,24 @@ public class DailyActivity extends AppCompatActivity{
             public void run() {
                 Socket socket;
                 try {
-                    socket = new Socket("192.168.1.184", 4497);
+                    socket = new Socket(HomeActivity.host, 4497);
 
                     String socketData = "pic:" + width + " " + height + " " + imgsrc;
                     BufferedWriter writer = new BufferedWriter(
                             new OutputStreamWriter(socket.getOutputStream()));
                     writer.write(socketData + "\0");
                     writer.flush();
+                    BufferedReader reader = new BufferedReader(
+                            new InputStreamReader(socket.getInputStream()));
+                    String text=reader.readLine();
                     socket.close();
                     Looper.prepare();
-                    Toast.makeText(getApplicationContext(), "哼唧哼唧，猪猪收到惹~",
-                            Toast.LENGTH_SHORT).show();
+                    if(text.startsWith("success"))
+                        Toast.makeText(getApplicationContext(), "收到啦~兔子多吃点~",
+                                Toast.LENGTH_SHORT).show();
+                    else
+                        Toast.makeText(getApplicationContext(), "今天收到过了呢~",
+                                Toast.LENGTH_SHORT).show();
                     Looper.loop();
 
                 } catch (IOException e) {
@@ -455,4 +492,5 @@ public class DailyActivity extends AppCompatActivity{
             }
         }).start();
     }
+
 }

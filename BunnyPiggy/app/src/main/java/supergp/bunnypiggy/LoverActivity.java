@@ -82,7 +82,7 @@ public class LoverActivity extends AppCompatActivity {
             public void run() {
                 Socket socket;
                 try {
-                    socket = new Socket("192.168.1.184", 4497);
+                    socket = new Socket(HomeActivity.host, 4497);
 
                     String socketData = "loverr:" + year + "-" + (month + 1) + "-" + day + " \n";
                     BufferedWriter writer = new BufferedWriter(

@@ -29,6 +29,8 @@ import java.util.Calendar;
 
 public class HomeActivity extends AppCompatActivity {
 
+    public static String host = "192.168.1.184";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,7 +66,7 @@ public class HomeActivity extends AppCompatActivity {
                                 public void run() {
                                     Socket socket;
                                     try {
-                                        socket = new Socket("192.168.1.184", 4497);
+                                        socket = new Socket(HomeActivity.host, 4497);
 
                                         String socketData = "fab:" + input.getText().toString();
                                         BufferedWriter writer = new BufferedWriter(
@@ -179,7 +181,7 @@ public class HomeActivity extends AppCompatActivity {
             public void run() {
                 Socket socket;
                 try {
-                    socket = new Socket("192.168.1.184", 4497);
+                    socket = new Socket(HomeActivity.host, 4497);
 
                     String socketData = "board:";
                     BufferedWriter writer = new BufferedWriter(
@@ -201,7 +203,7 @@ public class HomeActivity extends AppCompatActivity {
                                     public void onClick(DialogInterface dialog, int which) {
                                         Socket socket;
                                         try {
-                                            socket = new Socket("192.168.1.184", 4497);
+                                            socket = new Socket(HomeActivity.host, 4497);
                                             String socketData = "boardok:";
                                             BufferedWriter writer = new BufferedWriter(
                                                     new OutputStreamWriter(socket.getOutputStream()));
@@ -242,4 +244,5 @@ public class HomeActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
 }

@@ -82,22 +82,39 @@
                 android:src="@drawable/together"/>
         </LinearLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#000"
-            android:textSize="24sp"
-            android:layout_margin="@dimen/text_margin"
-            android:layout_gravity="center_horizontal"
-            android:id="@+id/card_msg"
-            android:text="@string/home_card" />
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:background="@drawable/button"
-            android:id="@+id/card_btn"
-            android:text="试一试"/>
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/luck"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#000"
+                    android:textSize="24sp"
+                    android:layout_margin="@dimen/text_margin"
+                    android:layout_gravity="center_horizontal"
+                    android:id="@+id/card_msg"
+                    android:text="@string/home_card" />
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/button"
+                    android:id="@+id/card_btn"
+                    android:text="试一试"/>
+            </LinearLayout>
+        </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"

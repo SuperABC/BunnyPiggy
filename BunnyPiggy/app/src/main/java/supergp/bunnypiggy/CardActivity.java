@@ -15,7 +15,6 @@ import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -28,6 +27,8 @@ import java.net.Socket;
 import java.util.Calendar;
 
 public class CardActivity extends AppCompatActivity {
+
+    private int cardNum = 0;
 
     public Handler h = new Handler(){
         @Override
@@ -48,6 +49,29 @@ public class CardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_card);
 
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Socket socket;
+                try {
+                    socket = new Socket(HomeActivity.host, 4497);
+
+                    String socketData = "cardn:";
+                    BufferedWriter writer = new BufferedWriter(
+                            new OutputStreamWriter(socket.getOutputStream()));
+                    writer.write(socketData + "\0");
+                    writer.flush();
+                    BufferedReader reader = new BufferedReader(
+                            new InputStreamReader(socket.getInputStream()));
+                    String text=reader.readLine();
+                    cardNum = Integer.parseInt(text);
+                    socket.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+
         Calendar calendar = Calendar.getInstance();
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
         RelativeLayout act = (RelativeLayout)findViewById(R.id.cardlayout);
@@ -66,6 +90,9 @@ public class CardActivity extends AppCompatActivity {
             luck.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if (cardNum <= 0){
+                        return;
+                    }
                     if (box != null) {
                         box.setVisibility(View.VISIBLE);
                         luck.setEnabled(false);
@@ -96,7 +123,7 @@ public class CardActivity extends AppCompatActivity {
                                         Message m = new Message();
                                         h.sendMessage(m);
                                         try {
-                                            socket = new Socket("192.168.1.184", 4497);
+                                            socket = new Socket(HomeActivity.host, 4497);
 
                                             String socketData = "card:";
                                             BufferedWriter writer = new BufferedWriter(
@@ -109,6 +136,7 @@ public class CardActivity extends AppCompatActivity {
                                             while((append=reader.readLine())!=null){
                                                 text += append + '\n';
                                             }
+                                            cardNum--;
                                             giveReward(text);
                                             socket.close();
                                         } catch (IOException e) {
@@ -127,14 +155,50 @@ public class CardActivity extends AppCompatActivity {
 
     private void giveReward(String text){
         Looper.prepare();
+        final AlertDialog.Builder normalDialog;
         switch (text){
             case "0\n":
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Socket socket;
+                        try {
+                            socket = new Socket(HomeActivity.host, 4497);
+
+                            String socketData = "cardok:";
+                            BufferedWriter writer = new BufferedWriter(
+                                    new OutputStreamWriter(socket.getOutputStream()));
+                            writer.write(socketData + "\0");
+                            writer.flush();
+                            socket.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }).start();
                 Toast.makeText(getApplicationContext(), "木有抽中…",
                         Toast.LENGTH_SHORT).show();
                 break;
             case "1\n":
-                final AlertDialog.Builder normalDialog =
-                        new AlertDialog.Builder(CardActivity.this);
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Socket socket;
+                        try {
+                            socket = new Socket(HomeActivity.host, 4497);
+
+                            String socketData = "cardok:";
+                            BufferedWriter writer = new BufferedWriter(
+                                    new OutputStreamWriter(socket.getOutputStream()));
+                            writer.write(socketData + "\0");
+                            writer.flush();
+                            socket.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }).start();
+                normalDialog = new AlertDialog.Builder(CardActivity.this);
                 normalDialog.setIcon(R.mipmap.ic_launcher);
                 normalDialog.setTitle("兔子好胖胖");
                 normalDialog.setMessage("哇，抽中了1级卡片！");
@@ -153,7 +217,321 @@ public class CardActivity extends AppCompatActivity {
                             }
                         });
                 normalDialog.show();
+                break;
+            case "2\n":
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Socket socket;
+                        try {
+                            socket = new Socket(HomeActivity.host, 4497);
+
+                            String socketData = "cardok:";
+                            BufferedWriter writer = new BufferedWriter(
+                                    new OutputStreamWriter(socket.getOutputStream()));
+                            writer.write(socketData + "\0");
+                            writer.flush();
+                            socket.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }).start();
+                normalDialog = new AlertDialog.Builder(CardActivity.this);
+                normalDialog.setIcon(R.mipmap.ic_launcher);
+                normalDialog.setTitle("兔子好胖胖");
+                normalDialog.setMessage("哇，抽中了2级卡片！");
+                normalDialog.setPositiveButton("确定",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
+                normalDialog.setNegativeButton("关闭",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
+                normalDialog.show();
+                break;
+            case "3\n":
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Socket socket;
+                        try {
+                            socket = new Socket(HomeActivity.host, 4497);
+
+                            String socketData = "cardok:";
+                            BufferedWriter writer = new BufferedWriter(
+                                    new OutputStreamWriter(socket.getOutputStream()));
+                            writer.write(socketData + "\0");
+                            writer.flush();
+                            socket.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }).start();
+                normalDialog = new AlertDialog.Builder(CardActivity.this);
+                normalDialog.setIcon(R.mipmap.ic_launcher);
+                normalDialog.setTitle("兔子好胖胖");
+                normalDialog.setMessage("哇，抽中了3级卡片！");
+                normalDialog.setPositiveButton("确定",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
+                normalDialog.setNegativeButton("关闭",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
+                normalDialog.show();
+                break;
+            case "4\n":
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Socket socket;
+                        try {
+                            socket = new Socket(HomeActivity.host, 4497);
+
+                            String socketData = "cardok:";
+                            BufferedWriter writer = new BufferedWriter(
+                                    new OutputStreamWriter(socket.getOutputStream()));
+                            writer.write(socketData + "\0");
+                            writer.flush();
+                            socket.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }).start();
+                normalDialog = new AlertDialog.Builder(CardActivity.this);
+                normalDialog.setIcon(R.mipmap.ic_launcher);
+                normalDialog.setTitle("兔子好胖胖");
+                normalDialog.setMessage("哇，抽中了4级卡片！");
+                normalDialog.setPositiveButton("确定",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
+                normalDialog.setNegativeButton("关闭",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
+                normalDialog.show();
+                break;
+            case "5\n":
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Socket socket;
+                        try {
+                            socket = new Socket(HomeActivity.host, 4497);
+
+                            String socketData = "cardok:";
+                            BufferedWriter writer = new BufferedWriter(
+                                    new OutputStreamWriter(socket.getOutputStream()));
+                            writer.write(socketData + "\0");
+                            writer.flush();
+                            socket.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }).start();
+                normalDialog = new AlertDialog.Builder(CardActivity.this);
+                normalDialog.setIcon(R.mipmap.ic_launcher);
+                normalDialog.setTitle("兔子好胖胖");
+                normalDialog.setMessage("哇，抽中了5级卡片！");
+                normalDialog.setPositiveButton("确定",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
+                normalDialog.setNegativeButton("关闭",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
+                normalDialog.show();
+                break;
+            case "6\n":
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Socket socket;
+                        try {
+                            socket = new Socket(HomeActivity.host, 4497);
+
+                            String socketData = "cardok:";
+                            BufferedWriter writer = new BufferedWriter(
+                                    new OutputStreamWriter(socket.getOutputStream()));
+                            writer.write(socketData + "\0");
+                            writer.flush();
+                            socket.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }).start();
+                normalDialog = new AlertDialog.Builder(CardActivity.this);
+                normalDialog.setIcon(R.mipmap.ic_launcher);
+                normalDialog.setTitle("兔子好胖胖");
+                normalDialog.setMessage("哇，抽中了6级卡片！");
+                normalDialog.setPositiveButton("确定",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
+                normalDialog.setNegativeButton("关闭",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
+                normalDialog.show();
+                break;
+            case "7\n":
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Socket socket;
+                        try {
+                            socket = new Socket(HomeActivity.host, 4497);
+
+                            String socketData = "cardok:";
+                            BufferedWriter writer = new BufferedWriter(
+                                    new OutputStreamWriter(socket.getOutputStream()));
+                            writer.write(socketData + "\0");
+                            writer.flush();
+                            socket.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }).start();
+                normalDialog = new AlertDialog.Builder(CardActivity.this);
+                normalDialog.setIcon(R.mipmap.ic_launcher);
+                normalDialog.setTitle("兔子好胖胖");
+                normalDialog.setMessage("哇，抽中了7级卡片！");
+                normalDialog.setPositiveButton("确定",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
+                normalDialog.setNegativeButton("关闭",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
+                normalDialog.show();
+                break;
+            case "8\n":
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Socket socket;
+                        try {
+                            socket = new Socket(HomeActivity.host, 4497);
+
+                            String socketData = "cardok:";
+                            BufferedWriter writer = new BufferedWriter(
+                                    new OutputStreamWriter(socket.getOutputStream()));
+                            writer.write(socketData + "\0");
+                            writer.flush();
+                            socket.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }).start();
+                normalDialog = new AlertDialog.Builder(CardActivity.this);
+                normalDialog.setIcon(R.mipmap.ic_launcher);
+                normalDialog.setTitle("兔子好胖胖");
+                normalDialog.setMessage("哇，抽中了8级卡片！");
+                normalDialog.setPositiveButton("确定",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
+                normalDialog.setNegativeButton("关闭",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
+                normalDialog.show();
+                break;
+            case "9\n":
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Socket socket;
+                        try {
+                            socket = new Socket(HomeActivity.host, 4497);
+
+                            String socketData = "cardok:";
+                            BufferedWriter writer = new BufferedWriter(
+                                    new OutputStreamWriter(socket.getOutputStream()));
+                            writer.write(socketData + "\0");
+                            writer.flush();
+                            socket.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }).start();
+                normalDialog = new AlertDialog.Builder(CardActivity.this);
+                normalDialog.setIcon(R.mipmap.ic_launcher);
+                normalDialog.setTitle("兔子好胖胖");
+                normalDialog.setMessage("哇，抽中了9级卡片！");
+                normalDialog.setPositiveButton("确定",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
+                normalDialog.setNegativeButton("关闭",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
+                normalDialog.show();
+                break;
         }
         Looper.loop();
     }
+
 }
