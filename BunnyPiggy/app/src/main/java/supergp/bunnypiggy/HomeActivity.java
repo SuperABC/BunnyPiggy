@@ -135,6 +135,16 @@ public class HomeActivity extends AppCompatActivity {
                 }
             });
         }
+        Button gameBtn = (Button) findViewById(R.id.game_btn);
+        if (gameBtn != null) {
+            gameBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(HomeActivity.this,GameActivity.class);
+                    //startActivity(intent);
+                }
+            });
+        }
         Button novelBtn = (Button) findViewById(R.id.novel_btn);
         if (novelBtn != null) {
             novelBtn.setOnClickListener(new View.OnClickListener() {

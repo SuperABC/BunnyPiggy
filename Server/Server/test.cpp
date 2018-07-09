@@ -241,19 +241,19 @@ void mainHandler(char *str, SOCKET socket) {
 			socketSend(socket, GBKToUTF8("5").data());
 			tmpCard = 5;
 		}
-		else if (r % 300 == 846) {
+		else if (r % 400 == 846) {
 			socketSend(socket, GBKToUTF8("4").data());
 			tmpCard = 4;
 		}
-		else if (r % 100 == 11) {
+		else if (r % 200 == 11) {
 			socketSend(socket, GBKToUTF8("3").data());
 			tmpCard = 3;
 		}
-		else if (r % 40 == 21) {
+		else if (r % 60 == 21) {
 			socketSend(socket, GBKToUTF8("2").data());
 			tmpCard = 2;
 		}
-		else if (r % 10 == 5) {
+		else if (r % 20 == 5) {
 			socketSend(socket, GBKToUTF8("1").data());
 			tmpCard = 1;
 		}
@@ -344,7 +344,7 @@ void singleCommun() {
 
 	if (socketReceive(tmp, buf, 64) != SG_CONNECTION_FAILED) {
 		widgetObj *output = getWidgetByName("Output");
-		strcpy((char *)output->content, buf);
+		strncpy((char *)output->content, buf, 64);
 		std::ofstream fout("socket.log", std::ios::app);
 
 		SYSTEMTIME sys;

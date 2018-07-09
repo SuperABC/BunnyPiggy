@@ -16,6 +16,7 @@ import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
@@ -32,14 +33,18 @@ public class CardActivity extends AppCompatActivity {
 
     public Handler h = new Handler(){
         @Override
-        public void handleMessage(Message msg){
-            ImageView box = (ImageView)findViewById(R.id.box);
+        public void handleMessage(Message msg) {
+            ImageView box = (ImageView) findViewById(R.id.box);
             if (box != null) {
                 box.setVisibility(View.INVISIBLE);
             }
-            Button luck = (Button)findViewById(R.id.reward);
+            Button luck = (Button) findViewById(R.id.reward);
             if (luck != null) {
                 luck.setEnabled(true);
+            }
+            TextView cardnText = (TextView)findViewById(R.id.card_num);
+            if (cardnText != null) {
+                cardnText.setText(String.valueOf(cardNum));
             }
         }
     };
@@ -65,6 +70,10 @@ public class CardActivity extends AppCompatActivity {
                             new InputStreamReader(socket.getInputStream()));
                     String text=reader.readLine();
                     cardNum = Integer.parseInt(text);
+                    TextView cardnText = (TextView)findViewById(R.id.card_num);
+                    if (cardnText != null) {
+                        cardnText.setText(String.valueOf(cardNum));
+                    }
                     socket.close();
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -82,6 +91,44 @@ public class CardActivity extends AppCompatActivity {
             else{
                 act.setBackgroundResource(R.drawable.facelight);
             }
+        }
+
+        Button stat = (Button)findViewById(R.id.card_stat);
+        Button inst = (Button)findViewById(R.id.card_inst);
+        if (stat != null) {
+            stat.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+        }
+        if (inst != null) {
+            inst.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final AlertDialog.Builder normalDialog;
+                    normalDialog = new AlertDialog.Builder(CardActivity.this);
+                    normalDialog.setIcon(R.drawable.icon);
+                    normalDialog.setTitle("卡片说明");
+                    normalDialog.setMessage(R.string.card_inst);
+                    normalDialog.setPositiveButton("确定",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                }
+                            });
+                    normalDialog.setNegativeButton("关闭",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                }
+                            });
+                    normalDialog.show();
+                }
+            });
         }
 
         final ImageView box = (ImageView)findViewById(R.id.box);
@@ -120,10 +167,12 @@ public class CardActivity extends AppCompatActivity {
                                     @Override
                                     public void run() {
                                         Socket socket;
-                                        Message m = new Message();
-                                        h.sendMessage(m);
                                         try {
                                             socket = new Socket(HomeActivity.host, 4497);
+
+                                            cardNum--;
+                                            Message m = new Message();
+                                            h.sendMessage(m);
 
                                             String socketData = "card:";
                                             BufferedWriter writer = new BufferedWriter(
@@ -136,10 +185,11 @@ public class CardActivity extends AppCompatActivity {
                                             while((append=reader.readLine())!=null){
                                                 text += append + '\n';
                                             }
-                                            cardNum--;
                                             giveReward(text);
                                             socket.close();
                                         } catch (IOException e) {
+                                            Message m = new Message();
+                                            h.sendMessage(m);
                                             e.printStackTrace();
                                         }
                                     }

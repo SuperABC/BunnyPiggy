@@ -2,9 +2,11 @@
     <string name="app_name">BunnyPiggy</string>
     <string name="action_settings">设置你的猪猪</string>
     <string name="action_promise">保证书</string>
+
     <string name="test_text">
         "霖霖是只可爱的小兔兔~"
     </string>
+
     <string name="home_daily">
         "猪猪还在睡觉觉~哼唧唧"
     </string>
@@ -17,10 +19,35 @@
     <string name="home_joke">
         "宝贝要听朱独秀的发言不？"
     </string>
+    <string name="home_game">
+        打猪升级啦
+    </string>
     <string name="home_novel">
         "从前有蜘蛛，追到一只兔…"
     </string>
     <string name="home_secret">
         "兔子有悄悄话了咩？"
     </string>
+
+    <string name="card_inst">
+        1级卡片：\n\t
+            日常bg。\n
+        2级卡片：\n\t
+            由猪猪负责不少于10分钟的按摩。\n
+        3级卡片：\n\t
+            被强吻一次。\n
+        4级卡片：\n\t
+            兔子指定姿势。\n
+        5级卡片：\n\t
+            呐可以指定猪猪买一件衣服。\n
+        6级卡片：\n\t
+            获得踹下床机会一次。\n
+        7级卡片：\n\t
+            指定地点旅游。\n
+        8级卡片：\n\t
+            清空购物车。\n
+        9级卡片：\n\t
+            保密。
+    </string>
+
 </resources>

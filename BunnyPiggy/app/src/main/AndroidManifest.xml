@@ -22,6 +22,7 @@
         <activity android:name=".LoverActivity"/>
         <activity android:name=".CardActivity"/>
         <activity android:name=".JokeActivity"/>
+        <activity android:name=".GameActivity"/>
         <activity android:name=".NovelActivity"/>
         <activity android:name=".SecretActivity"/>
         <activity android:name=".SportActivity"/>
