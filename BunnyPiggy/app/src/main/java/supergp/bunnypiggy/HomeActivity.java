@@ -247,6 +247,17 @@ public class HomeActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_settings) {
+            final EditText et = new EditText(HomeActivity.this);
+            new AlertDialog.Builder(HomeActivity.this)
+                .setTitle("设置服务器地址")
+                .setView(et)
+                .setPositiveButton("确定",new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        host = et.getText().toString();
+                    }
+                }).setNegativeButton("取消", null)
+                .setCancelable(false).show();
             return true;
         }
         else if (id == R.id.action_promise) {
